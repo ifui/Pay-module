@@ -1,0 +1,26 @@
+{
+    "name": "nwidart/pay",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Pay\\": ""
+        }
+    },
+    "require": {
+        "yansongda/laravel-pay": "~3.1.0"
+    }
+}
