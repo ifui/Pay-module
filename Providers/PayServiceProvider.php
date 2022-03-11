@@ -4,6 +4,7 @@ namespace Modules\Pay\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
+use Yansongda\Pay\Pay;
 
 class PayServiceProvider extends ServiceProvider
 {
@@ -51,8 +52,10 @@ class PayServiceProvider extends ServiceProvider
             module_path($this->moduleName, 'Config/config.php') => config_path($this->moduleNameLower . '.php'),
         ], 'config');
         $this->mergeConfigFrom(
-            module_path($this->moduleName, 'Config/config.php'), $this->moduleNameLower
+            module_path($this->moduleName, 'Config/config.php'),
+            $this->moduleNameLower
         );
+        Pay::config(config('pay'));
     }
 
     /**

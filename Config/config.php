@@ -27,9 +27,9 @@ return [
             // 必填-支付宝根证书 路径
             'alipay_root_cert_path' => env('ALIPAY_ROOT_CERT_PATH', ''),
             // 同步返回
-            'return_url' => '/api/v1/pay/alipay/return',
+            'return_url' => '',
             // 异步通知
-            'notify_url' => '/api/v1/pay/alipay/notify',
+            'notify_url' => 'http://laravel-utopia.ifui.test/api/v1/pay/alipay/callback',
             // 选填-服务商模式下的服务商 id，当 mode 为 Pay::MODE_SERVICE 时使用该参数
             'service_provider_id' => '',
             // 选填-默认为正常模式。可选为： MODE_NORMAL, MODE_SANDBOX, MODE_SERVICE

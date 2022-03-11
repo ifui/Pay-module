@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use Modules\Pay\Http\Controllers\V1\AlipayController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +13,12 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/pay', function (Request $request) {
-    return $request->user();
+$v1_prefix = 'v1/pay';
+
+
+Route::prefix($v1_prefix)->group(function () {
+  // 支付宝异步回调通知
+  Route::any('/alipay/callback', [AlipayController::class, 'callback']);
+  // 支付宝查询订单
+  Route::get('/alipay/check/{id}', [AlipayController::class, 'check']);
 });

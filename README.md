@@ -2,6 +2,8 @@
 
 > 支付模块
 
+本模块主要依赖`laravel-pay`开发包，建议[查看文档](https://pay.yansongda.cn/)
+
 ## 模块环境配置
 
 ```env
