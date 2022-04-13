@@ -4,18 +4,20 @@ namespace Modules\Pay\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class PayOrder extends Model
+class PayFapiao extends Model
 {
     use HasFactory;
-    use SoftDeletes;
 
-    protected $guarded = ['id'];
+    protected $guarded = [
+        'id',
+        'pay_fapiaoable_id',
+        'pay_fapiaoable_type'
+    ];
 
     protected static function newFactory()
     {
-        return \Modules\Pay\Database\factories\PayOrderFactory::new();
+        return \Modules\Pay\Database\factories\PayFapiaoFactory::new();
     }
 
     /**
@@ -23,7 +25,7 @@ class PayOrder extends Model
      * 
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
-    public function pay_orderable()
+    public function pay_fapiaoable()
     {
         return $this->morphTo();
     }
