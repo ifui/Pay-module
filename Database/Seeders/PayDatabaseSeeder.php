@@ -16,6 +16,7 @@ class PayDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        // $this->call("OthersTableSeeder");
+        // 初始化生成模块所需角色和权限
+        $this->call(PayPermissionTableSeeder::class);
     }
 }

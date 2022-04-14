@@ -87,4 +87,75 @@ return [
         'type' => 'daily', // optional, 可选 daily.
         'max_file' => 30,
     ],
+
+    /**
+     * 支付模块权限映射表
+     * 
+     * 20220413
+     */
+    'roles' => [
+        'name' => 'Pay Admin',
+        'guard_name' => 'admin',
+        'description' => '具有支付模块所有的权限'
+    ],
+    'permissions' => [
+        'pay all' => [
+            'name' => 'pay.*',
+            'guard_name' => 'admin',
+            'description' => '具有支付模块所有的权限'
+        ],
+
+        /**
+         * 订单相关权限
+         * 
+         */
+        'pay order view' => [
+            'name' => 'pay.order.view',
+            'guard_name' => 'admin',
+            'description' => '允许查看用户订单信息'
+        ],
+        'pay order update' => [
+            'name' => 'pay.order.update',
+            'guard_name' => 'admin',
+            'description' => '允许操作订单，包括审核'
+        ],
+        'pay order delete' => [
+            'name' => 'pay.order.delete',
+            'guard_name' => 'admin',
+            'description' => '允许删除订单信息'
+        ],
+
+        /**
+         * 发票相关权限
+         * 
+         */
+        'pay fapiao view' => [
+            'name' => 'pay.fapiao.view',
+            'guard_name' => 'admin',
+            'description' => '允许查看用户申请发票的相关信息'
+        ],
+        'pay fapiao create' => [
+            'name' => 'pay.fapiao.create',
+            'guard_name' => 'admin',
+            'description' => '允许添加发票'
+        ],
+        'pay fapiao update' => [
+            'name' => 'pay.fapiao.update',
+            'guard_name' => 'admin',
+            'description' => '允许操作发票，包括上传附件'
+        ],
+        'pay fapiao delete' => [
+            'name' => 'pay.fapiao.delete',
+            'guard_name' => 'admin',
+            'description' => '允许删除发票'
+        ],
+    ],
+
+    /**
+     * 设置 fapiao 允许的模型数组映射
+     * 
+     * eg.
+     *   post => \Models\Post::class
+     */
+    'fapiao_accept_types' => []
 ];

@@ -5,10 +5,10 @@ namespace Modules\Pay\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Modules\MeetingKjj\Entities\MeetingRegister;
 use Modules\MeetingKjj\Http\Requests\V1\Pay\FapiaoRequest;
-use Modules\MeetingKjj\QueryBuilder\Models\MeetingRegisterQuery;
 use Modules\Pay\Entities\PayFapiao;
+use Modules\Pay\QueryBuilder\Models\PayFapiaoQuery;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class FapiaoController extends Controller
 {
@@ -18,7 +18,15 @@ class FapiaoController extends Controller
      */
     public function index()
     {
-        //
+        $this->authorize(PayFapiao::class);
+
+        $model = QueryBuilder::for(PayFapiao::class)
+            ->allowedFilters(PayFapiaoQuery::filter())
+            ->defaultSort('sort')
+            ->allowedSorts(PayFapiaoQuery::sort())
+            ->paginate(request()->get('pageSize'));
+
+        return result($model);
     }
 
     /**

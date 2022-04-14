@@ -1,7 +1,5 @@
 <?php
 
-use Modules\Pay\Http\Controllers\V1\FapiaoController;
-use Modules\Pay\Http\Controllers\V1\AlipayController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,17 +12,12 @@ use Modules\Pay\Http\Controllers\V1\AlipayController;
 |
 */
 
+use Modules\Pay\Http\Controllers\Admin\FapiaoController;
+
 $v1_prefix = 'v1/pay';
 
 
 Route::prefix($v1_prefix)->group(function () {
-  // 支付宝异步回调通知
-  Route::any('/alipay/callback', [AlipayController::class, 'callback']);
   // 支付宝查询订单
-  Route::get('/alipay/check/{id}', [AlipayController::class, 'check']);
-});
-
-Route::middleware('auth:sanctum')->prefix($v1_prefix)->group(function () {
-  // 发票信息
   Route::resource('/fapiaos', FapiaoController::class);
 });
