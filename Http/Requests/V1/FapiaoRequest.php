@@ -3,16 +3,15 @@
 namespace Modules\Pay\Http\Requests\V1;
 
 use App\Http\Requests\MethodRequest;
-use Illuminate\Validation\Rule;
 
 class FapiaoRequest extends MethodRequest
 {
     // 默认公用规则
     protected $defaultRules = [
-        'company_address',
-        'phone',
-        'opening_bank',
-        'bank_account',
+        'company_address' => '',
+        'phone' => '',
+        'opening_bank' => '',
+        'bank_account' => '',
     ];
 
     public function postRules()
