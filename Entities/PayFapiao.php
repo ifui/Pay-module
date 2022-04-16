@@ -9,11 +9,7 @@ class PayFapiao extends Model
 {
     use HasFactory;
 
-    protected $guarded = [
-        'id',
-        'pay_fapiaoable_id',
-        'pay_fapiaoable_type'
-    ];
+    protected $guarded = ['id'];
 
     protected static function newFactory()
     {
@@ -21,12 +17,13 @@ class PayFapiao extends Model
     }
 
     /**
-     * 多态一对一
+     * 一对一
+     * 关联订单表
      * 
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
-    public function pay_fapiaoable()
+    public function pay_order()
     {
-        return $this->morphTo();
+        return $this->belongsTo(PayOrder::class);
     }
 }

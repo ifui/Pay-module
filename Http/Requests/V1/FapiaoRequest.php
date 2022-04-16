@@ -17,12 +17,10 @@ class FapiaoRequest extends MethodRequest
 
     public function postRules()
     {
-        $accept_types = array_keys(config('pay.fapiao_accept_types', []));
         return [
             'header' => ['required'],
             'tax_num' => ['required'],
-            'type_id' => ['required', 'numeric'],
-            'type' => ['required', Rule::in($accept_types)],
+            'pay_order_id' => ['required', 'exists:pay_orders,id'],
         ];
     }
 
@@ -39,9 +37,8 @@ class FapiaoRequest extends MethodRequest
         return [
             'header.required' => '发票抬头不能为空',
             'tax_num.required' => '税号不能为空',
-            'type_id.required' => '类型ID不能为空',
-            'type_id.numeric' => '类型ID必须为数字',
-            'type.required' => '类型不能为空',
+            'pay_order_id.required' => '订单ID不能为空',
+            'pay_order_id.exists' => '该订单不存在',
         ];
     }
 }

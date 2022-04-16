@@ -15,15 +15,13 @@ return new class extends Migration
     {
         Schema::create('pay_fapiaos', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('pay_order_id')->comment('订单表ID');
             $table->string('header')->comment('发票抬头');
             $table->string('tax_num', 20)->comment('税号')->nullable();
             $table->string('company_address')->comment('公司地址')->nullable();
             $table->string('phone')->comment('联系电话')->nullable();
             $table->string('opening_bank')->comment('开户银行')->nullable();
             $table->string('bank_account')->comment('银行账号')->nullable();
-
-            $table->unsignedBigInteger('pay_fapiaoable_id')->comment('关联表ID');
-            $table->string('pay_fapiaoable_type', 350)->comment('关联表模型');
 
             $table->string('file')->comment('文件下载地址')->nullable();
             $table->timestamps();

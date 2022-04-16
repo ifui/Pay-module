@@ -5,8 +5,8 @@ namespace Modules\Pay\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Modules\MeetingKjj\Http\Requests\V1\Pay\FapiaoRequest;
 use Modules\Pay\Entities\PayFapiao;
+use Modules\Pay\Http\Requests\Admin\FapiaoRequest;
 use Modules\Pay\QueryBuilder\Models\PayFapiaoQuery;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -22,7 +22,8 @@ class FapiaoController extends Controller
 
         $model = QueryBuilder::for(PayFapiao::class)
             ->allowedFilters(PayFapiaoQuery::filter())
-            ->defaultSort('sort')
+            ->allowedIncludes(PayFapiaoQuery::include())
+            ->defaultSort('-id')
             ->allowedSorts(PayFapiaoQuery::sort())
             ->paginate(request()->get('pageSize'));
 
@@ -34,7 +35,7 @@ class FapiaoController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function store(FapiaoRequest $request, $id)
+    public function store(FapiaoRequest $request)
     {
     }
 
@@ -45,7 +46,12 @@ class FapiaoController extends Controller
      */
     public function show($id)
     {
-        //
+        $this->authorize(PayFapiao::class);
+
+        $model = PayFapiao::with('pay_order')
+            ->findOrFail($id);
+
+        return result($model);
     }
 
     /**
@@ -56,7 +62,14 @@ class FapiaoController extends Controller
      */
     public function update(FapiaoRequest $request, $id)
     {
-        //
+        $this->authorize(PayFapiao::class);
+
+        $model = PayFapiao::findOrFail($id);
+
+        $model->fill($request->validated());
+        $model->file = $request->input('file', null);
+
+        return resultStatus($model->save());
     }
 
     /**
@@ -66,6 +79,10 @@ class FapiaoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->authorize(PayFapiao::class);
+
+        $model = PayFapiao::findOrFail($id);
+
+        return resultStatus($model->delete());
     }
 }

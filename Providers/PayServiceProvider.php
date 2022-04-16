@@ -2,8 +2,7 @@
 
 namespace Modules\Pay\Providers;
 
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Database\Eloquent\Factory;
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Yansongda\Pay\Pay;
 
 class PayServiceProvider extends ServiceProvider
@@ -27,6 +26,9 @@ class PayServiceProvider extends ServiceProvider
     {
         $this->registerTranslations();
         $this->registerConfig();
+
+        $this->registerPolicies();
+
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
     }

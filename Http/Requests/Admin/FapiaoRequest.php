@@ -2,29 +2,48 @@
 
 namespace Modules\Pay\Http\Requests\Admin;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\MethodRequest;
+use Illuminate\Validation\Rule;
 
-class FapiaoRequest extends FormRequest
+class FapiaoRequest extends MethodRequest
 {
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    // 默认公用规则
+    protected $defaultRules = [
+        'company_address',
+        'phone',
+        'opening_bank',
+        'bank_account',
+    ];
+
+    public function postRules()
     {
+        $accept_types = array_keys(config('pay.fapiao_accept_types', []));
         return [
-            //
+            'header' => ['required'],
+            'tax_num' => ['required'],
+            'type_id' => ['required', 'numeric'],
+            'type' => ['required', Rule::in($accept_types)],
+            'file' => 'nullable'
         ];
     }
 
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
+    public function patchRules()
     {
-        return true;
+        return [
+            'header' => '',
+            'tax_num' => '',
+            'file' => 'nullable'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'header.required' => '发票抬头不能为空',
+            'tax_num.required' => '税号不能为空',
+            'type_id.required' => '类型ID不能为空',
+            'type_id.numeric' => '类型ID必须为数字',
+            'type.required' => '类型不能为空',
+        ];
     }
 }

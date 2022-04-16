@@ -17,7 +17,7 @@ use Modules\Pay\Http\Controllers\Admin\FapiaoController;
 $v1_prefix = 'v1/pay';
 
 
-Route::prefix($v1_prefix)->group(function () {
+Route::middleware('auth:sanctum')->prefix($v1_prefix)->group(function () {
   // 支付宝查询订单
   Route::resource('/fapiaos', FapiaoController::class);
 });

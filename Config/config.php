@@ -150,12 +150,4 @@ return [
             'description' => '允许删除发票'
         ],
     ],
-
-    /**
-     * 设置 fapiao 允许的模型数组映射
-     * 
-     * eg.
-     *   post => \Models\Post::class
-     */
-    'fapiao_accept_types' => []
 ];

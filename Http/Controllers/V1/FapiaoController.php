@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\Pay\Entities\PayFapiao;
+use Modules\Pay\Entities\PayOrder;
 use Modules\Pay\Http\Requests\V1\FapiaoRequest;
 
 class FapiaoController extends Controller
@@ -26,21 +27,13 @@ class FapiaoController extends Controller
      */
     public function store(FapiaoRequest $request)
     {
-        try {
-            $className = config('pay.fapiao_accept_types.' . $request->type);
-            $model = new $className();
-            $model = $model->findOrFail($request->type_id);
-        } catch (\Exception $e) {
-            return error('pay::code.7003');
-        }
+        $order = PayOrder::findOrFail($request->pay_order_id);
 
-        // 权限验证，判断是否有权限申请发票
-        $this->authorize('isPayFapiao', $model);
+        // 权限验证，判断是否是本人
+        $this->authorize('isOwner', $order);
 
         $fapiao = new PayFapiao();
         $fapiao->fill($request->validated());
-        $fapiao->pay_fapiaoable_id = $request->type_id;
-        $fapiao->pay_fapiaoable_type = $className;
 
         return resultStatus($fapiao->save());
     }
@@ -52,8 +45,11 @@ class FapiaoController extends Controller
      */
     public function show($id)
     {
-        $model = PayFapiao::with('pay_fapiaoable')
+        $model = PayFapiao::with('pay_order')
             ->findOrFail($id);
+
+        // 权限验证，判断是否是本人
+        $this->authorize('isOwner', $model->pay_order);
 
         return result($model);
     }
@@ -68,8 +64,8 @@ class FapiaoController extends Controller
     {
         $model = PayFapiao::findOrFail($id);
 
-        // 权限判断，是否是本人
-        $this->authorize('isOwner', $model->pay_fapiaoable);
+        // 权限验证，判断是否是本人
+        $this->authorize('isOwner', $model->pay_order);
 
         $model->fill($request->validated());
 
