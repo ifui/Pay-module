@@ -10,27 +10,27 @@ class PayFapiaoPolicy
 {
     use HandlesAuthorization;
 
-    public function viewAny(AdminUser $user)
+    public function viewAny(AdminUser $user): bool
     {
         return $user->can(PayPermission::fapiaoView());
     }
 
-    public function view(AdminUser $user)
+    public function view(AdminUser $user): bool
     {
         return $user->can(PayPermission::fapiaoView());
     }
 
-    public function create(AdminUser $user)
+    public function create(AdminUser $user): bool
     {
         return $user->can(PayPermission::fapiaoCreate());
     }
 
-    public function update(AdminUser $user)
+    public function update(AdminUser $user): bool
     {
         return $user->can(PayPermission::fapiaoUpdate());
     }
 
-    public function delete(AdminUser $user)
+    public function delete(AdminUser $user): bool
     {
         return $user->can(PayPermission::fapiaoDelete());
     }

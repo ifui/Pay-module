@@ -2,8 +2,10 @@
 
 namespace Modules\Pay\Entities;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\hasOne;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PayOrder extends Model
@@ -24,17 +26,17 @@ class PayOrder extends Model
     }
 
 
-    protected static function newFactory()
+    protected static function newFactory(): \Modules\Pay\Database\factories\PayOrderFactory
     {
         return \Modules\Pay\Database\factories\PayOrderFactory::new();
     }
 
     /**
      * 多态一对一
-     * 
-     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     *
+     * @return MorphTo
      */
-    public function pay_orderable()
+    public function pay_orderable(): MorphTo
     {
         return $this->morphTo();
     }
@@ -43,9 +45,9 @@ class PayOrder extends Model
      * 一对一关联
      * 发票
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return hasOne
      */
-    public function fapiao()
+    public function fapiao(): hasOne
     {
         return $this->hasOne(PayFapiao::class);
     }

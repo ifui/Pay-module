@@ -5,31 +5,28 @@ namespace Modules\Pay\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
-use Modules\Pay\Entities\PayFapiao;
-use Modules\Pay\Http\Requests\Admin\FapiaoRequest;
-use Modules\Pay\QueryBuilder\Models\PayFapiaoQuery;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Modules\Pay\Entities\PayOrder;
+use Modules\Pay\Http\Requests\Admin\OrderRequest;
+use Modules\Pay\QueryBuilder\Models\PayOrderQuery;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class FapiaoController extends Controller
+class OrderController extends Controller
 {
     /**
      * Display a listing of the resource.
      * @return JsonResponse
      * @throws AuthorizationException
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     public function index(): JsonResponse
     {
-        $this->authorize(PayFapiao::class);
-
-        $model = QueryBuilder::for(PayFapiao::class)
-            ->allowedFilters(PayFapiaoQuery::filter())
-            ->allowedIncludes(PayFapiaoQuery::include())
+        $this->authorize(PayOrder::class);
+        $model = QueryBuilder::for(PayOrder::class)
+            ->allowedFilters(PayOrderQuery::filter())
+            ->allowedIncludes(PayOrderQuery::include())
             ->defaultSort('-id')
-            ->allowedSorts(PayFapiaoQuery::sort())
+            ->allowedSorts(PayOrderQuery::sort())
             ->paginate(request()->input('pageSize', 15));
 
         return result($model);
@@ -37,11 +34,12 @@ class FapiaoController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     * @param FapiaoRequest $request
-     * @return void
+     * @param Request $request
+     * @return Response
      */
-    public function store(FapiaoRequest $request): void
+    public function store(Request $request)
     {
+        //
     }
 
     /**
@@ -52,9 +50,9 @@ class FapiaoController extends Controller
      */
     public function show(int $id): JsonResponse
     {
-        $this->authorize(PayFapiao::class);
+        $this->authorize(PayOrder::class);
 
-        $model = PayFapiao::with('pay_order')
+        $model = PayOrder::with(['pay_orderable', 'fapiao'])
             ->findOrFail($id);
 
         return result($model);
@@ -62,19 +60,18 @@ class FapiaoController extends Controller
 
     /**
      * Update the specified resource in storage.
-     * @param FapiaoRequest $request
+     * @param OrderRequest $request
      * @param int $id
      * @return JsonResponse
      * @throws AuthorizationException
      */
-    public function update(FapiaoRequest $request, int $id): JsonResponse
+    public function update(OrderRequest $request, int $id): JsonResponse
     {
-        $this->authorize(PayFapiao::class);
+        $this->authorize(PayOrder::class);
 
-        $model = PayFapiao::findOrFail($id);
+        $model = PayOrder::findOrFail($id);
 
         $model->fill($request->validated());
-        $model->file = $request->input('file', null);
 
         return resultStatus($model->save());
     }
@@ -87,9 +84,9 @@ class FapiaoController extends Controller
      */
     public function destroy(int $id): JsonResponse
     {
-        $this->authorize(PayFapiao::class);
+        $this->authorize(PayOrder::class);
 
-        $model = PayFapiao::findOrFail($id);
+        $model = PayOrder::findOrFail($id);
 
         return resultStatus($model->delete());
     }

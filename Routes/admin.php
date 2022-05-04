@@ -13,11 +13,14 @@
 */
 
 use Modules\Pay\Http\Controllers\Admin\FapiaoController;
+use Modules\Pay\Http\Controllers\Admin\OrderController;
 
 $v1_prefix = 'v1/pay';
 
 
 Route::middleware('auth:sanctum')->prefix($v1_prefix)->group(function () {
-  // 支付宝查询订单
-  Route::resource('/fapiaos', FapiaoController::class);
+    // 发票
+    Route::resource('/fapiaos', FapiaoController::class);
+    // 订单
+    Route::resource('/orders', OrderController::class);
 });
