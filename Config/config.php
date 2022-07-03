@@ -68,8 +68,8 @@ return [
             'wechat_public_cert_path' => [
                 '45F59D4DABF31918AFCEC556D5D2C6E376675D57' => __DIR__ . '/Cert/wechatPublicKey.crt',
             ],
-            // 选填-默认为正常模式。可选为： MODE_NORMAL, MODE_SERVICE
-            'mode' => Pay::MODE_NORMAL,
+            // 选填-默认为正常模式。可选为： 0 正常模式, 1 沙箱模式, 2 服务商模式
+            'mode' => 0,
         ],
     ],
     'http' => [ // optional
