@@ -2,14 +2,12 @@
 
 declare(strict_types=1);
 
-use Yansongda\Pay\Pay;
-
 return [
     'name' => 'Pay',
     'alipay' => [
         /**
          * 支付宝支付注意事项（摘自官方文档）：
-         * 
+         *
          * • 由于同步返回的不可靠性，支付结果必须以异步通知或查询接口返回为准，不能依赖同步跳转。
          * • 商户系统接收到异步通知以后，必须通过验签（验证通知中的 sign 参数）来确保支付通知是由支付宝发送的。详细验签规则请参见 异步通知验签。
          * • 接收到异步通知并验签通过后，请务必核对通知中的 app_id、out_trade_no、total_amount 等参数值是否与请求中的一致，并根据 trade_status 进行后续业务处理。
@@ -32,8 +30,8 @@ return [
             'notify_url' => 'http://laravel-utopia.ifui.test/api/v1/pay/alipay/callback',
             // 选填-服务商模式下的服务商 id，当 mode 为 Pay::MODE_SERVICE 时使用该参数
             'service_provider_id' => '',
-            // 选填-默认为正常模式。可选为： MODE_NORMAL, MODE_SANDBOX, MODE_SERVICE
-            'mode' => env('ALIPAY_MODE', Pay::MODE_NORMAL),
+            // 选填-默认为正常模式。可选为： 0 正常模式, 1 沙箱模式, 2 服务商模式
+            'mode' => env('ALIPAY_MODE', 0),
         ],
     ],
     'wechat' => [
@@ -56,7 +54,7 @@ return [
             'app_id' => '',
             // 选填-合单 app_id
             'combine_app_id' => '',
-            // 选填-合单商户号 
+            // 选填-合单商户号
             'combine_mch_id' => '',
             // 选填-服务商模式下，子公众号 的 app_id
             'sub_mp_app_id' => '',
@@ -90,7 +88,7 @@ return [
 
     /**
      * 支付模块权限映射表
-     * 
+     *
      * 20220413
      */
     'roles' => [
@@ -107,7 +105,7 @@ return [
 
         /**
          * 订单相关权限
-         * 
+         *
          */
         'pay order view' => [
             'name' => 'pay.order.view',
@@ -127,7 +125,7 @@ return [
 
         /**
          * 发票相关权限
-         * 
+         *
          */
         'pay fapiao view' => [
             'name' => 'pay.fapiao.view',
